@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+
+  "name": "Voice Notes Plugin",
+  "description": "This extension provides voice interface to jot down your notes",
+  "version": "1.0",
+  "browser_action": {
+   "default_icon": "note.png",
+   "default_popup": "popup2.html"
+  },
+  "permissions": [
+   "activeTab",
+   "storage","tabs"
+
+   ]
+}
