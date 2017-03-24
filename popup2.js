@@ -88,7 +88,6 @@ window.open ('openNotes.html','_self',false)
 
 }
 
-
   window.onload=function()
   {
 
@@ -103,6 +102,13 @@ window.open ('openNotes.html','_self',false)
   
   opener = document.querySelector('#open');
   opener.addEventListener('click', openNote, false);
-  
+
+  copier = document.querySelector('#copy');
+copier.addEventListener('click', function()
+{
+document.getElementById("transcript").select(); 
+    document.execCommand("Copy", false, null);
+   }
+, false)
  // chrome.storage.sync.clear();
 }

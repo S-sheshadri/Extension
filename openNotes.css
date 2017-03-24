@@ -1,8 +1,34 @@
+@import url('http://fonts.googleapis.com/css?family=Acme');
+
+
 #1
 {
     display: block;
     margin: auto auto;
     margin-top: 50px;
+}
+
+#back
+{
+    position: relative;
+    display:block;
+    margin:auto;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-family: 'Acme', sans-serif;
+    font-size: 20px;
+    color: #000;
+    cursor: pointer; 
+    cursor: hand;
+    background-color: #F2CF66;
+}
+
+#backDiv
+{
+	margin:0;
+	padding:0;
+  	height:60px
+	
 }
 
 textarea
@@ -12,15 +38,15 @@ textarea
 	border-style: solid;
 	border-width: 5px;
 	margin: auto auto;
-	border-color: #fff;
+	border-color: #F2CF66;
 	margin-top: 5px;
 	margin-left: 15px;
+	margin-bottom:5px;
 	background-color: #FFFFCC;
 }
 body
 {
-	background:  url("background1.jpg");
+    background:  url("background1.jpg");
     background-size: cover; 
     width: 450px;
-	
 }
