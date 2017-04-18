@@ -17,7 +17,7 @@
     display: block;
     margin:auto;
     position: relative;
-    padding: 13px 20px;
+    padding: 8px 20px;
     font-family: 'Acme', sans-serif;
     font-size: 15px;
     background-color: transparent;
@@ -25,30 +25,10 @@
     text-decoration: none;  
     cursor: pointer; 
     cursor: hand;
-    color: yellow;
-    border-color: yellow;
-    border-width: 4px;
-    border-radius: 50%;
-    -webkit-transition: all .5s ease-in-out;
-        -o-transition: all .5s ease-in-out;
-        -moz-transition: all .5s ease-in-out;
-        transition: all .5s ease-in-out;
-                z-index: 1;
-        
+    color: #fff;
+    border-color: #fff;
+    border-width: 3px;
 }
-
-#start:hover {
-        -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
-        -o-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
-        -moz-box-shadow: 5px 5px 10px rgba(0,0,0,.3);
-        box-shadow: 5px 5px 10px rgba(0,0,0,.3);
-        z-index: 2;
-        border-size: 10px;
-        -webkit-transform: rotate(-360deg);
-        -moz-transform: rotate(-360deg);
-        -o-transform: rotate(-360deg);
-        transform: rotate(-360deg);
-    }
 
 #search
 {

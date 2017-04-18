@@ -17,16 +17,11 @@ function startDictation()
       if(recognition)
         {
           recognition.stop();
-          document.getElementById('start').style.color='red'; 
-          document.getElementById('start').style.borderColor='red'; 
           document.getElementById('transcript').value="";
           script="";
           array=[];
           recognition=null;  
-          return;
         }
-      document.getElementById('start').style.color='green'; 
-      document.getElementById('start').style.borderColor='green'; 
       recognition = new webkitSpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
@@ -41,7 +36,6 @@ function startDictation()
           {array.push(e.results[e.resultIndex][0].transcript);}
         else
           array[e.resultIndex]=e.results[e.resultIndex][0].transcript;
-     //REPEATED EXEC HERE>>>>>>WHY?????????????????????????????????????????????????????
         console.log("results:",array);
         document.getElementById('transcript').value = array.join(".");
         //to change when typed
@@ -53,18 +47,22 @@ function startDictation()
                     e.resultIndex=1;
                     array=[];
                     array.push(area.value);
-                    console.log("56",array);
+                    console.log(array);
               }, false);
           }
       };
 
 
+      recognition.onspeechstart = function(e)
+       {
+        if(!recognition)recognition.start()
+       };
      
       recognition.onend =function(e)
       {
-        document.getElementById('start').style.color='red'; 
         script=document.getElementById('transcript').value;
         console.log("Recogniztion API stopped.Restarting now");
+        recognition.stop();
       };
     }
   }
@@ -78,7 +76,7 @@ function searchGoogle()
 }
 
 
-function saveNote ()
+function updateNote ()
 {
    var d1=document.getElementById('transcript').value;
    console.log("Saving",d1);
@@ -103,6 +101,9 @@ window.open ('openNotes.html','_self',false)
 window.onload=function()
   {
 
+  chrome.storage.sync.get('upNote', function(items) {
+    console.log("bro",items['upNote']);
+});
   starter = document.querySelector('#start');
   starter.onclick = function () 
   {
@@ -131,8 +132,8 @@ window.onload=function()
   searcher=document.querySelector('#google');
   searcher.addEventListener('click', searchGoogle, false);
   
-  saver = document.querySelector('#save');
-  saver.addEventListener('click', saveNote, false);
+  updater = document.querySelector('#update');
+  updater.addEventListener('click', updateNote, false);
   
   opener = document.querySelector('#open');
   opener.addEventListener('click', openNote, false);
