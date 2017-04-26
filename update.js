@@ -4,21 +4,12 @@ var note=null;
 var allMyNotes=[];
 var recognition=null;
 var keys=[];
+var mickey;
 
 function startDictation() 
 {
-    document.getElementById('transcript').value="";
     script="";
     array=[];
-    if(document.getElementById('start'))
-    {
-      document.getElementById('start').id='listening';
-    }
-  else
-    {
-      document.getElementById('listening').id='start';
-    }
-
     if (window.hasOwnProperty('webkitSpeechRecognition')) 
     {
 
@@ -26,7 +17,6 @@ function startDictation()
         {
           recognition.stop();
           document.getElementById('transcript').value="";
-          //to change mic color if needed 
           script="";
           array=[];
           recognition=null;  
@@ -34,7 +24,7 @@ function startDictation()
       recognition = new webkitSpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
-      recognition.lang = "en-US";
+      recognition.lang = "en-IN";
       recognition.start();
 
 
@@ -45,10 +35,27 @@ function startDictation()
           {array.push(e.results[e.resultIndex][0].transcript);}
         else
           array[e.resultIndex]=e.results[e.resultIndex][0].transcript;
-        console.log(array);
-        document.getElementById('transcript').value = script+array.join("");
+        console.log("results:",array);
+        document.getElementById('transcript').value = array.join(".");
+        //to change when typed
+          area = document.querySelector('#transcript');
+          if (area.addEventListener) 
+          {
+          area.addEventListener('input', function() 
+              {
+                    e.resultIndex=1;
+                    array=[];
+                    array.push(area.value);
+                    console.log(array);
+              }, false);
+          }
       };
 
+
+      recognition.onspeechstart = function(e)
+       {
+        if(!recognition)recognition.start()
+       };
      
       recognition.onend =function(e)
       {
@@ -67,21 +74,18 @@ function searchGoogle()
    chrome.tabs.create({ url: newURL });
 }
 
-function saveNote ()
+
+function updateNote ()
 {
    var d1=document.getElementById('transcript').value;
    console.log("Saving",d1);
-   var obj =  {[new Date().getTime()]: d1};
+   var obj =  {[mickey]: d1};
    chrome.storage.sync.set(obj, function() {
     if (chrome.runtime.error) {
       console.log("Runtime error.");
     }
   });
-
 }
-
-
-
 
 function openNote () 
 {
@@ -93,23 +97,15 @@ window.open ('openNotes.html','_self',false)
 
 }
 
- window.onload=function()
+window.onload=function()
   {
 
-  var color="#FFF";
-  var obj =  {["^color"]:color};
-   chrome.storage.sync.set(obj, function() {
-    if (chrome.runtime.error) {
-      console.log("Runtime error.");
-    }
-  });
-
-  type=document.getElementById('transcript');
-  type.onkeyup=function (argument) 
+  chrome.storage.sync.get('^upNote', function(items) 
   {
-  array=[];
-  array.push(type.value);
-  }
+    mickey=items['^upNote'];
+    chrome.storage.sync.get(mickey, function(items1){
+      document.getElementById("transcript").value=items1[mickey];
+    });});
   starter = document.querySelector('#start');
   starter.onclick = function () 
   {
@@ -138,8 +134,8 @@ window.open ('openNotes.html','_self',false)
   searcher=document.querySelector('#google');
   searcher.addEventListener('click', searchGoogle, false);
   
-  saver = document.querySelector('#save');
-  saver.addEventListener('click', saveNote, false);
+  updater = document.querySelector('#update');
+  updater.addEventListener('click', updateNote, false);
   
   opener = document.querySelector('#open');
   opener.addEventListener('click', openNote, false);
@@ -150,5 +146,21 @@ window.open ('openNotes.html','_self',false)
     document.getElementById("transcript").select(); 
     document.execCommand("Copy", false, null);
      }, false);
+
+  settings = document.querySelector('#settings');
+  settings.onclick = function () 
+ {
+    // body...
+    alert("sertings");
+    chrome.storage.sync.get('^color', function(items) 
+  {
+    var c=items['^color'];
+    document.body.style.backgroundColor=c;
+});
+ 
+ 
+  };
    // chrome.storage.sync.clear();
 }
+//On editing text area DONE
+//

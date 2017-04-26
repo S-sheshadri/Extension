@@ -6,35 +6,31 @@ var recognition=null;
 var keys=[];
 
 function startDictation() 
+
 {
-    document.getElementById('transcript').value="";
+   document.getElementById('transcript').value="";
     script="";
     array=[];
-    if(document.getElementById('start'))
-    {
-      document.getElementById('start').id='listening';
-    }
-  else
-    {
-      document.getElementById('listening').id='start';
-    }
-
     if (window.hasOwnProperty('webkitSpeechRecognition')) 
     {
 
       if(recognition)
         {
           recognition.stop();
+          document.getElementById('start').style.color='red'; 
+          document.getElementById('start').style.borderColor='red'; 
           document.getElementById('transcript').value="";
-          //to change mic color if needed 
           script="";
           array=[];
           recognition=null;  
+          return;
         }
+      document.getElementById('start').style.color='green'; 
+      document.getElementById('start').style.borderColor='green'; 
       recognition = new webkitSpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
-      recognition.lang = "en-US";
+      recognition.lang = "en-IN";
       recognition.start();
 
 
@@ -45,16 +41,30 @@ function startDictation()
           {array.push(e.results[e.resultIndex][0].transcript);}
         else
           array[e.resultIndex]=e.results[e.resultIndex][0].transcript;
-        console.log(array);
-        document.getElementById('transcript').value = script+array.join("");
+         //REPEATED EXEC HERE>>>>>>WHY?????????????????????????????????????????????????????
+        console.log("results:",array);
+        document.getElementById('transcript').value = array.join(".");
+        //to change when typed
+          area = document.querySelector('#transcript');
+          if (area.addEventListener) 
+          {
+          area.addEventListener('input', function() 
+              {
+                    e.resultIndex=1;
+                    array=[];
+                    array.push(area.value);
+                    console.log("56",array);
+              }, false);
+          }
       };
+
 
      
       recognition.onend =function(e)
       {
+        document.getElementById('start').style.color='red'; 
         script=document.getElementById('transcript').value;
         console.log("Recogniztion API stopped.Restarting now");
-        recognition.stop();
       };
     }
   }
@@ -67,6 +77,7 @@ function searchGoogle()
    chrome.tabs.create({ url: newURL });
 }
 
+
 function saveNote ()
 {
    var d1=document.getElementById('transcript').value;
@@ -77,11 +88,7 @@ function saveNote ()
       console.log("Runtime error.");
     }
   });
-
 }
-
-
-
 
 function openNote () 
 {
@@ -93,23 +100,9 @@ window.open ('openNotes.html','_self',false)
 
 }
 
- window.onload=function()
+window.onload=function()
   {
 
-  var color="#FFF";
-  var obj =  {["^color"]:color};
-   chrome.storage.sync.set(obj, function() {
-    if (chrome.runtime.error) {
-      console.log("Runtime error.");
-    }
-  });
-
-  type=document.getElementById('transcript');
-  type.onkeyup=function (argument) 
-  {
-  array=[];
-  array.push(type.value);
-  }
   starter = document.querySelector('#start');
   starter.onclick = function () 
   {
@@ -152,3 +145,5 @@ window.open ('openNotes.html','_self',false)
      }, false);
    // chrome.storage.sync.clear();
 }
+//On editing text area DONE
+//

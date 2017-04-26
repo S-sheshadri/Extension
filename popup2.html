@@ -2,24 +2,49 @@
   <head>
     <title>Make Your Note!</title>
 	<link rel="stylesheet" type="text/css" href="popup2.css">
-    
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	 <script type="text/javascript" src="popup2.js"></script>
+	
 
  </head>
- <script type="text/javascript" src="popup2.js"></script>
 
-<!-- Search Form -->
- <body>
-<div id="text">    <textarea id="transcript" ></textarea>
+
+<body>
+
+<div id="micDiv">
+	<button id="start"><i class="fa fa-microphone" style="font-size:36px"></i>
+	</button>
 </div>
+
+
+
+<div id="text">  
+  <div id="upButtons">
+	  <button id="setting">
+	  	<i class="fa fa-cog"></i>
+	  </button>
+
+	  <button id="reset">
+	  	<i class="fa fa-backward"></i>
+	  </button>
+	  <button id="undo">
+	  	<i class="fa fa-undo"></i>
+	  </button>
+	  <button id="redo">
+	  	<i class="fa fa-repeat"></i>
+	  </button>
+  </div>
+  <textarea id="transcript" ></textarea>
+</div>
+
+
 <div id= "buttons">
-					<button id="google" class="action-button shadow animate red">Google Search</button>
-					<button id="save" class="action-button shadow animate red">Save Note</button>
-					<button id="open"class="action-button shadow animate red">Open My Notes</button>
+	<button id="google" class="action-button">Google Search</button>
+	<button id="save" class="action-button">Save Note</button>
+	<button id="open"class="action-button">Open My Notes</button>
+	<button id="copy" class="action-button" >Copy Note</button>
 </div>
 
-<div id="mic">
- <img id='mic' src="Mic.png" />
-</div>
 
 </body>
 </html>
